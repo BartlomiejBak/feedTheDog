@@ -1,4 +1,4 @@
-package dynamoDB;
+package dynamodb;
 
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 

@@ -6,7 +6,7 @@ import software.amazon.awssdk.services.sns.model.*;
 public class SNSService {
 
     public String createTopic(SnsClient snsClient, String topicName) {
-        CreateTopicResponse result = null;
+        CreateTopicResponse result;
         try {
             CreateTopicRequest request = CreateTopicRequest.builder()
                     .name(topicName)

@@ -1,4 +1,4 @@
-package dynamoDB;
+package dynamodb;
 
 import software.amazon.awssdk.core.waiters.WaiterResponse;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -7,7 +7,7 @@ import software.amazon.awssdk.services.dynamodb.waiters.DynamoDbWaiter;
 
 public class DynamoDBService {
 
-    public String createTable(DynamoDbClient dynamoDbClient, String tableName, String key) {
+    public void createTable(DynamoDbClient dynamoDbClient, String tableName, String key) {
 
         DynamoDbWaiter dbWaiter = dynamoDbClient.waiter();
         CreateTableRequest request = CreateTableRequest.builder()
@@ -20,13 +20,11 @@ public class DynamoDBService {
                         .keyType(KeyType.HASH)
                         .build())
                 .provisionedThroughput(ProvisionedThroughput.builder()
-                        .readCapacityUnits(Long.valueOf(10))
-                        .writeCapacityUnits(Long.valueOf(10))
+                        .readCapacityUnits(10L)
+                        .writeCapacityUnits(10L)
                         .build())
                 .tableName(tableName)
                 .build();
-
-        String newTable = "";
 
         try {
             CreateTableResponse response = dynamoDbClient.createTable(request);
@@ -37,13 +35,10 @@ public class DynamoDBService {
             WaiterResponse<DescribeTableResponse> waiterResponse = dbWaiter.waitUntilTableExists(tableRequest);
             waiterResponse.matched().response().ifPresent(System.out::println);
 
-            newTable = response.tableDescription().tableName();
-            return newTable;
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
             System.exit(1);
         }
-        return "";
     }
 
     public void deleteTable(DynamoDbClient dynamoDbClient, String tableName) {

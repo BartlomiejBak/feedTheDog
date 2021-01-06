@@ -1,8 +1,8 @@
 package main;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dynamoDB.DDObjectServiceDog;
-import dynamoDB.DynamoDBService;
+import dynamodb.DDObjectServiceDog;
+import dynamodb.DynamoDBService;
 import entities.Dog;
 import s3.BucketService;
 import sns.SNSService;

@@ -1,4 +1,4 @@
-package dynamoDB;
+package dynamodb;
 
 import entities.Dog;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class DDObjectServiceDog implements DDBObjectService<Dog> {
 
-    private String id = "id";
-    private String name = "name";
-    private String breed = "breed";
-    private String weight = "weight";
+    private final String id = "id";
+    private final String name = "name";
+    private final String breed = "breed";
+    private final String weight = "weight";
 
 
     @Override
@@ -40,7 +40,6 @@ public class DDObjectServiceDog implements DDBObjectService<Dog> {
             System.out.println("Table successfully updated");
         } catch (ResourceNotFoundException e) {
             System.err.format("Error: The Amazon DynamoDB table \"%s\" can't be found.\n", tableName);
-
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
         }
@@ -62,8 +61,7 @@ public class DDObjectServiceDog implements DDBObjectService<Dog> {
 
         try {
             Map<String, AttributeValue> returnedDog = dynamoDbClient.getItem(request).item();
-            Dog convertedDog = dogConverter(returnedDog);
-            return convertedDog;
+            return dogConverter(returnedDog);
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
         }
@@ -93,8 +91,6 @@ public class DDObjectServiceDog implements DDBObjectService<Dog> {
                 .build();
         try {
             dynamoDbClient.updateItem(request);
-        } catch (ResourceNotFoundException e) {
-            System.err.println(e.getMessage());
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
         }
@@ -120,20 +116,16 @@ public class DDObjectServiceDog implements DDBObjectService<Dog> {
     }
 
     private Dog dogConverter(Map<String, AttributeValue> returnedDog) {
-        String id = returnedDog.get("id").toString().substring(17);
-        String name = returnedDog.get("name").toString().substring(17);
-        String breed = returnedDog.get("breed").toString().substring(17);
-        String weight = returnedDog.get("weight").toString().substring(17);
+        String dogId = returnedDog.get(id).toString().substring(17);
+        String dogName = returnedDog.get(name).toString().substring(17);
+        String dogBreed = returnedDog.get(breed).toString().substring(17);
+        String dogWeight = returnedDog.get(weight).toString().substring(17);
 
-        if (returnedDog != null) {
-            Dog returnedEntity = Dog.builder()
-                    .id(Integer.valueOf(id.substring(0, id.length() - 1)))
-                    .name(name.substring(0, name.length() - 1))
-                    .breed(breed.substring(0, breed.length() - 1))
-                    .weight(Double.valueOf(weight.substring(0, weight.length() - 1)))
-                    .build();
-            return returnedEntity;
-        }
-        return null;
+        return Dog.builder()
+                .id(Integer.parseInt(dogId.substring(0, dogId.length() - 1)))
+                .name(dogName.substring(0, dogName.length() - 1))
+                .breed(dogBreed.substring(0, dogBreed.length() - 1))
+                .weight(Double.parseDouble(dogWeight.substring(0, dogWeight.length() - 1)))
+                .build();
     }
 }
