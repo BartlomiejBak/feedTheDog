@@ -8,7 +8,7 @@ AWS demo project
 4. [Status](#Status)
 
 ## General info
-Very basic app showing some possibilities of AWS.
+
 App creates simple dog entity. After creation of dog, app creates DynamoDB table and insert dog into. 
 They are also created: 
 - SNS topic, 
@@ -36,4 +36,4 @@ and properly configure credentials. Instructions can be found there: https://doc
 Before start, you should change region value in App class to your choice.
 
 ## Status
-For now completed
+Completed
