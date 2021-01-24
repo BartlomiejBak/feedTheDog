@@ -36,4 +36,5 @@ and properly configure credentials. Instructions can be found there: https://doc
 Before start, you should change region value in App class to your choice.
 
 ## Status
-Completed
+to do:
+- implement DynamoDBMapper
